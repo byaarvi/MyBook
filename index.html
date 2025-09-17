@@ -2,36 +2,64 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PDF Test</title>
+<title>My Book Flipbook</title>
 <style>
-  body { margin:0; display:flex; justify-content:center; align-items:center; height:100vh; background:#eee; }
-  canvas { border:1px solid black; }
+  body { margin:0; display:flex; justify-content:center; align-items:center; height:100vh; background:#ccc; }
+  #flipbook { width:800px; height:600px; }
+  #flipbook .page { width:100%; height:100%; background:white; box-shadow:0 0 5px rgba(0,0,0,0.3); }
+  canvas { width:100%; height:100%; display:block; }
 </style>
 </head>
 <body>
-<canvas id="pdf-canvas"></canvas>
+<div id="flipbook"></div>
 
-<!-- ✅ Tested version -->
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- turn.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
+<!-- PDF.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
 
 <script>
-// ✅ pdfjsLib is now available globally
+// ✅ PDF.js setup
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js';
 
-// ✅ Your GitHub Pages PDF
+// ✅ GitHub Pages PDF URL
 const url = 'https://byaarvi.github.io/MyBook/MyBook.pdf';
+const flipbook = document.getElementById('flipbook');
 
-const canvas = document.getElementById('pdf-canvas');
-const ctx = canvas.getContext('2d');
-
-// Load and render first page
+// Load PDF
 pdfjsLib.getDocument(url).promise.then(pdf => {
-  return pdf.getPage(1);
-}).then(page => {
-  const viewport = page.getViewport({ scale: 1.5 });
-  canvas.width = viewport.width;
-  canvas.height = viewport.height;
-  page.render({ canvasContext: ctx, viewport: viewport });
+  console.log('PDF loaded, total pages:', pdf.numPages);
+
+  // Render each page
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const pageDiv = document.createElement('div');
+    pageDiv.className = 'page';
+    const canvas = document.createElement('canvas');
+    pageDiv.appendChild(canvas);
+    flipbook.appendChild(pageDiv);
+
+    pdf.getPage(i).then(page => {
+      const viewport = page.getViewport({ scale: 1.2 });
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      const renderContext = {
+        canvasContext: canvas.getContext('2d'),
+        viewport: viewport
+      };
+      page.render(renderContext);
+    });
+  }
+
+  // Initialize flipbook after small delay (to let canvases add)
+  setTimeout(() => {
+    $('#flipbook').turn({
+      width: 800,
+      height: 600,
+      autoCenter: true
+    });
+  }, 1000);
 }).catch(err => {
   console.error('PDF load error:', err);
 });
