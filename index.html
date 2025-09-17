@@ -37,7 +37,8 @@
 
 <!-- Libraries -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
+<!-- Correct jQuery plugin version of turn.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
 
 <script>
 $(document).ready(function(){
@@ -49,7 +50,7 @@ $(document).ready(function(){
     pageDiv.className = 'page';
 
     const img = document.createElement('img');
-    // Space handle karne ke liye %20 use kiya
+    // space handle karne ke liye %20 use kiya
     img.src = `images/My%20Book-images-${i}.jpg`;
 
     pageDiv.appendChild(img);
@@ -60,7 +61,7 @@ $(document).ready(function(){
   $('#flipbook').turn({
     width: 800,
     height: 600,
-    display: 'double',
+    display: 'double',   // 2 pages ek sath
     autoCenter: true,
     acceleration: true,
     gradients: true,
