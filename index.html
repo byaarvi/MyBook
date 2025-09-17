@@ -11,19 +11,15 @@
 <body>
 <canvas id="pdf-canvas"></canvas>
 
-<!-- PDF.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.13.146/pdf.min.js"></script>
+<!-- Official PDF.js -->
+<script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
 <script>
-const pdfjsLib = window['pdfjs-dist/build/pdf'];
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.13.146/pdf.worker.min.js';
-
-// 🔑 Raw GitHub URL
+// PDF.js is now available as window['pdfjsLib']
 const url = 'https://raw.githubusercontent.com/byaarvi/MyBook/main/MyBook.pdf';
 
 const canvas = document.getElementById('pdf-canvas');
 const ctx = canvas.getContext('2d');
 
-// Load and render first page
 pdfjsLib.getDocument(url).promise.then(pdf => {
   return pdf.getPage(1);
 }).then(page => {
