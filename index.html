@@ -2,72 +2,40 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>My Flipbook</title>
+<title>Test Flipbook</title>
 <style>
-  body {
-    margin: 0;
-    background: #ccc;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* book top se align hogi */
-    min-height: 100vh;
-  }
-
   #flipbook {
-    width: 800px;   /* book ka total width */
-    height: 600px;  /* book ka total height */
+    width: 800px;
+    height: 600px;
   }
-
   #flipbook .page {
-    width: 400px;   /* half width */
+    width: 400px;
     height: 600px;
     background: white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-  }
-
-  #flipbook img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    line-height: 600px;
+    text-align: center;
+    font-size: 40px;
   }
 </style>
 </head>
 <body>
-<div id="flipbook"></div>
+<div id="flipbook">
+  <div class="page">Page 1</div>
+  <div class="page">Page 2</div>
+  <div class="page">Page 3</div>
+  <div class="page">Page 4</div>
+</div>
 
-<!-- Libraries -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Correct Turn.js plugin -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
 
 <script>
 $(document).ready(function(){
-  const totalPages = 100; // aapke 0 se 99 tak ke pages
-  const flipbook = document.getElementById('flipbook');
-
-  // Pages generate karna
-  for(let i=0; i<totalPages; i++){
-    const pageDiv = document.createElement('div');
-    pageDiv.className = 'page';
-
-    const img = document.createElement('img');
-    // Space handle karne ke liye %20 use kiya
-    img.src = `images/My%20Book-images-${i}.jpg`;
-
-    pageDiv.appendChild(img);
-    flipbook.appendChild(pageDiv);
-  }
-
-  // Initialize Turn.js
   $('#flipbook').turn({
     width: 800,
     height: 600,
-    display: 'double',   // 2 pages ek sath
     autoCenter: true,
-    page: 1,             // start from first page
-    acceleration: true,
-    gradients: true,
-    elevation: 50
+    display: 'double'
   });
 });
 </script>
