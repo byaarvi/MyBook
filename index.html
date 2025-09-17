@@ -9,17 +9,17 @@
     background: #ccc;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start; /* book top se align hogi */
+    min-height: 100vh;
   }
 
   #flipbook {
-    width: 800px;
-    height: 600px;
+    width: 800px;   /* book ka total width */
+    height: 600px;  /* book ka total height */
   }
 
   #flipbook .page {
-    width: 400px;
+    width: 400px;   /* half width */
     height: 600px;
     background: white;
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
@@ -37,32 +37,34 @@
 
 <!-- Libraries -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Correct jQuery plugin version of turn.js -->
+<!-- Correct Turn.js plugin -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
 
 <script>
 $(document).ready(function(){
-  const totalPages = 100; // 0 se 99 tak = 100 pages
+  const totalPages = 100; // aapke 0 se 99 tak ke pages
   const flipbook = document.getElementById('flipbook');
 
+  // Pages generate karna
   for(let i=0; i<totalPages; i++){
     const pageDiv = document.createElement('div');
     pageDiv.className = 'page';
 
     const img = document.createElement('img');
-    // space handle karne ke liye %20 use kiya
+    // Space handle karne ke liye %20 use kiya
     img.src = `images/My%20Book-images-${i}.jpg`;
 
     pageDiv.appendChild(img);
     flipbook.appendChild(pageDiv);
   }
 
-  // Initialize turn.js
+  // Initialize Turn.js
   $('#flipbook').turn({
     width: 800,
     height: 600,
     display: 'double',   // 2 pages ek sath
     autoCenter: true,
+    page: 1,             // start from first page
     acceleration: true,
     gradients: true,
     elevation: 50
