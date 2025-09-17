@@ -5,12 +5,12 @@
 <title>My Book Flipbook</title>
 <style>
   body {
-    margin:0;
-    background:#ccc;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
+    margin: 0;
+    background: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
   }
 
   #flipbook {
@@ -20,15 +20,15 @@
   }
 
   #flipbook .page {
-    width: 400px;      /* half of book width */
+    width: 400px;      /* half book width */
     height: 600px;
-    background:white;
-    box-shadow:0 0 10px rgba(0,0,0,0.3);
-    overflow:hidden;
+    background: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    overflow: hidden;
   }
 
   #flipbook canvas {
-    display:block;
+    display: block;
   }
 </style>
 </head>
@@ -37,7 +37,7 @@
 
 <!-- Libraries -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/turn.js@4/turn.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js"></script>
 
@@ -48,16 +48,17 @@ $(document).ready(function(){
   const pdfjsLib = window['pdfjs-dist/build/pdf'];
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js';
 
-  // PDF link (GitHub Pages)
+  // PDF file (GitHub Pages link)
   const pdfURL = 'https://byaarvi.github.io/MyBook/MyBook.pdf';
   const flipbook = document.getElementById('flipbook');
 
+  // Load PDF
   pdfjsLib.getDocument(pdfURL).promise.then(pdf => {
       let loadedPages = 0;
 
       for (let i = 1; i <= pdf.numPages; i++) {
           const pageDiv = document.createElement('div');
-          pageDiv.className='page';
+          pageDiv.className = 'page';
           flipbook.appendChild(pageDiv);
 
           const canvas = document.createElement('canvas');
@@ -76,8 +77,8 @@ $(document).ready(function(){
                   viewport: scaledViewport
               }).promise.then(() => {
                   loadedPages++;
-                  if(loadedPages === pdf.numPages){
-                      // Initialize flipbook after all pages are rendered
+                  if (loadedPages === pdf.numPages) {
+                      // Initialize turn.js after all pages rendered
                       $('#flipbook').turn({
                           width: 800,
                           height: 600,
