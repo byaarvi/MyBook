@@ -5,9 +5,22 @@
 <title>My Book Flipbook</title>
 <style>
   body { margin:0; display:flex; justify-content:center; align-items:center; height:100vh; background:#ccc; }
-  #flipbook { width:800px; height:600px; }
-  #flipbook .page { width:100%; height:100%; background:white; box-shadow:0 0 5px rgba(0,0,0,0.3); }
-  canvas { width:100%; height:100%; display:block; }
+  #flipbook {
+    width:900px;  /* 6:9 ratio ke hisaab se adjust */
+    height:600px;
+  }
+  #flipbook .page {
+    width:100%;
+    height:100%;
+    background:white;
+    box-shadow:0 0 5px rgba(0,0,0,0.3);
+    overflow:hidden;
+  }
+  #flipbook canvas {
+    width:100%;
+    height:100%;
+    display:block;
+  }
 </style>
 </head>
 <body>
@@ -24,11 +37,10 @@
 // ✅ PDF.js setup
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js';
 
-// ✅ GitHub Pages PDF URL
+// ✅ Your PDF
 const url = 'https://byaarvi.github.io/MyBook/MyBook.pdf';
 const flipbook = document.getElementById('flipbook');
 
-// Load PDF
 pdfjsLib.getDocument(url).promise.then(pdf => {
   console.log('PDF loaded, total pages:', pdf.numPages);
 
@@ -41,7 +53,7 @@ pdfjsLib.getDocument(url).promise.then(pdf => {
     flipbook.appendChild(pageDiv);
 
     pdf.getPage(i).then(page => {
-      const viewport = page.getViewport({ scale: 1.2 });
+      const viewport = page.getViewport({ scale: 1.5 });
       canvas.width = viewport.width;
       canvas.height = viewport.height;
       const renderContext = {
@@ -52,14 +64,15 @@ pdfjsLib.getDocument(url).promise.then(pdf => {
     });
   }
 
-  // Initialize flipbook after small delay (to let canvases add)
+  // Initialize flipbook after all pages added
   setTimeout(() => {
     $('#flipbook').turn({
-      width: 800,
+      width: 900,
       height: 600,
-      autoCenter: true
+      autoCenter: true,
+      display: 'double'  // ek baar me do page jaisa book effect
     });
-  }, 1000);
+  }, 2000);
 }).catch(err => {
   console.error('PDF load error:', err);
 });
