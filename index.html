@@ -2,40 +2,71 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Test Flipbook</title>
+<title>My Flipbook</title>
 <style>
-  #flipbook {
-    width: 800px;
-    height: 600px;
+  body {
+    margin: 0;
+    background: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
   }
+
+  #flipbook {
+    width: 800px;   /* total width of book */
+    height: 600px;  /* total height of book */
+  }
+
   #flipbook .page {
-    width: 400px;
+    width: 400px;   /* half width */
     height: 600px;
     background: white;
-    line-height: 600px;
-    text-align: center;
-    font-size: 40px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+
+  #flipbook img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 </style>
 </head>
 <body>
-<div id="flipbook">
-  <div class="page">Page 1</div>
-  <div class="page">Page 2</div>
-  <div class="page">Page 3</div>
-  <div class="page">Page 4</div>
-</div>
+<div id="flipbook"></div>
 
+<!-- Libraries -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
+<!-- Local Turn.js (upload karo js folder ke andar) -->
+<script src="js/turn.min.js"></script>
 
 <script>
 $(document).ready(function(){
+  const totalPages = 100; // aapke pages 0 se 99 tak hain
+  const flipbook = document.getElementById('flipbook');
+
+  // Generate pages
+  for (let i = 0; i < totalPages; i++) {
+    const pageDiv = document.createElement('div');
+    pageDiv.className = 'page';
+
+    const img = document.createElement('img');
+    img.src = `images/My%20Book-images-${i}.jpg`; // space ke liye %20
+
+    pageDiv.appendChild(img);
+    flipbook.appendChild(pageDiv);
+  }
+
+  // Initialize Turn.js
   $('#flipbook').turn({
     width: 800,
     height: 600,
+    display: 'double',   // open book style
     autoCenter: true,
-    display: 'double'
+    page: 1,
+    acceleration: true,
+    gradients: true,
+    elevation: 50
   });
 });
 </script>
