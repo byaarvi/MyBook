@@ -11,14 +11,12 @@
 <body>
 <canvas id="pdf-canvas"></canvas>
 
-<!-- ✅ Stable PDF.js build -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js"></script>
+<!-- ✅ Tested version -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
 
 <script>
-// ✅ Properly define pdfjsLib
-const pdfjsLib = window['pdfjs-dist/build/pdf'];
-pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
+// ✅ pdfjsLib is now available globally
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js';
 
 // ✅ Your GitHub Pages PDF
 const url = 'https://byaarvi.github.io/MyBook/MyBook.pdf';
