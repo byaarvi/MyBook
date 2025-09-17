@@ -37,7 +37,8 @@
 
 <!-- Libraries -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/turn.js@4/turn.min.js"></script>
+<!-- Use jQuery plugin version of turn.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js"></script>
 
@@ -48,7 +49,7 @@ $(document).ready(function(){
   const pdfjsLib = window['pdfjs-dist/build/pdf'];
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js';
 
-  // PDF file (GitHub Pages link)
+  // PDF file link (GitHub Pages direct link)
   const pdfURL = 'https://byaarvi.github.io/MyBook/MyBook.pdf';
   const flipbook = document.getElementById('flipbook');
 
@@ -58,7 +59,7 @@ $(document).ready(function(){
 
       for (let i = 1; i <= pdf.numPages; i++) {
           const pageDiv = document.createElement('div');
-          pageDiv.className = 'page';
+          pageDiv.className='page';
           flipbook.appendChild(pageDiv);
 
           const canvas = document.createElement('canvas');
@@ -77,8 +78,8 @@ $(document).ready(function(){
                   viewport: scaledViewport
               }).promise.then(() => {
                   loadedPages++;
-                  if (loadedPages === pdf.numPages) {
-                      // Initialize turn.js after all pages rendered
+                  if (loadedPages === pdf.numPages){
+                      // Initialize turn.js after all pages are rendered
                       $('#flipbook').turn({
                           width: 800,
                           height: 600,
