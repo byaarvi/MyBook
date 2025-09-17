@@ -12,18 +12,21 @@
     align-items:center;
     height:100vh;
   }
+
   #flipbook {
-    width: 800px;
-    height: 600px;
+    width: 800px;      /* total book width */
+    height: 600px;     /* total book height */
     perspective: 2000px;
   }
+
   #flipbook .page {
-    width: 400px;   /* half of book width */
+    width: 400px;      /* half book width */
     height: 600px;
     background:white;
     box-shadow:0 0 10px rgba(0,0,0,0.3);
     overflow:hidden;
   }
+
   #flipbook canvas {
     display:block;
   }
@@ -43,48 +46,44 @@
 const pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js';
 
-// PDF file link
-const url = 'https://byaarvi.github.io/MyBook/MyBook.pdf';
+// PDF file (GitHub Pages direct link)
+const pdfURL = 'https://byaarvi.github.io/MyBook/MyBook.pdf';
 const flipbook = document.getElementById('flipbook');
 
-// Load PDF and render pages
-pdfjsLib.getDocument(url).promise.then(pdf => {
-    let loadedPages = 0;
+pdfjsLib.getDocument(pdfURL).promise.then(pdf => {
+  let loadedPages = 0;
 
-    for(let i=1; i<=pdf.numPages; i++){
-        const pageDiv = document.createElement('div');
-        pageDiv.className='page';
-        flipbook.appendChild(pageDiv);
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const pageDiv = document.createElement('div');
+    pageDiv.className = 'page';
+    flipbook.appendChild(pageDiv);
 
-        const canvas = document.createElement('canvas');
-        pageDiv.appendChild(canvas);
+    const canvas = document.createElement('canvas');
+    pageDiv.appendChild(canvas);
 
-        pdf.getPage(i).then(page => {
-            const viewport = page.getViewport({scale:1});
-            const scale = pageDiv.clientWidth / viewport.width;
-            const scaledViewport = page.getViewport({scale: scale});
+    pdf.getPage(i).then(page => {
+      const viewport = page.getViewport({ scale: 1 });
+      const scale = pageDiv.clientWidth / viewport.width;
+      const scaledViewport = page.getViewport({ scale: scale });
 
-            canvas.width = scaledViewport.width;
-            canvas.height = scaledViewport.height;
+      canvas.width = scaledViewport.width;
+      canvas.height = scaledViewport.height;
 
-            page.render({
-                canvasContext: canvas.getContext('2d'),
-                viewport: scaledViewport
-            }).promise.then(() => {
-                loadedPages++;
-                if(loadedPages === pdf.numPages){
-                    // Initialize flipbook
-                    $('#flipbook').turn({
-                        width: 800,
-                        height: 600,
-                        autoCenter: true,
-                        display: 'double',
-                        acceleration: true
-                    });
-                }
-            });
-        });
-    }
+      page.render({ canvasContext: canvas.getContext('2d'), viewport: scaledViewport }).promise.then(() => {
+        loadedPages++;
+        if (loadedPages === pdf.numPages) {
+          // Initialize turn.js after all pages rendered
+          $('#flipbook').turn({
+            width: 800,
+            height: 600,
+            display: 'double', // open book view
+            autoCenter: true,
+            acceleration: true
+          });
+        }
+      });
+    });
+  }
 }).catch(err => console.error('PDF load error:', err));
 </script>
 </body>
