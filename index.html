@@ -9,7 +9,7 @@
       background: #ccc;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
+      align-items: center;
       min-height: 100vh;
     }
 
@@ -18,14 +18,14 @@
       height: 600px;
     }
 
-    #flipbook .page {
+    .page {
       width: 400px;
       height: 600px;
       background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }
 
-    #flipbook img {
+    .page img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -34,42 +34,40 @@
 </head>
 <body>
 
-<div id="flipbook"></div>
+  <div id="flipbook"></div>
 
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- ✅ jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- ✅ Use CDN for Turn.js for now -->
-<script src="https://cdn.jsdelivr.net/gh/blasten/turn.js@master/lib/turn.min.js"></script>
+  <!-- ✅ Turn.js via CDN (this fixes your issue) -->
+  <script src="https://cdn.jsdelivr.net/gh/blasten/turn.js@master/lib/turn.min.js"></script>
 
-<script>
-$(document).ready(function(){
-  const totalPages = 100;
-  const flipbook = $('#flipbook');
+  <script>
+    $(document).ready(function () {
+      const totalPages = 10; // Change this to 100 if needed
+      const flipbook = $('#flipbook');
 
-  // Generate pages
-  for (let i = 0; i < totalPages; i++) {
-    const page = $('<div />', { 'class': 'page' });
-    const img = $('<img />', {
-      src: `images/My%20Book-images-${i}.jpg`,
-      alt: `Page ${i + 1}`
+      for (let i = 0; i < totalPages; i++) {
+        const page = $('<div />', { class: 'page' });
+        const img = $('<img />', {
+          src: `images/My%20Book-images-${i}.jpg`,
+          alt: `Page ${i + 1}`
+        });
+        page.append(img);
+        flipbook.append(page);
+      }
+
+      flipbook.turn({
+        width: 800,
+        height: 600,
+        display: 'double',
+        autoCenter: true,
+        elevation: 50,
+        gradients: true,
+        acceleration: true
+      });
     });
-    page.append(img);
-    flipbook.append(page);
-  }
+  </script>
 
-  // Initialize Turn.js after DOM is ready
-  flipbook.turn({
-    width: 800,
-    height: 600,
-    display: 'double',
-    autoCenter: true,
-    page: 1,
-    acceleration: true,
-    gradients: true,
-    elevation: 50
-  });
-});
-</script>
 </body>
 </html>
