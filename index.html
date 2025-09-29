@@ -8,14 +8,20 @@
       margin: 0;
       background: #ccc;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      font-family: sans-serif;
     }
 
     #flipbook {
       width: 800px;
       height: 600px;
+      position: relative;
+      z-index: 1000;
+      pointer-events: auto;
+      touch-action: manipulation;
     }
 
     .page {
@@ -23,6 +29,7 @@
       height: 600px;
       background: white;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
     }
 
     .page img {
@@ -30,34 +37,60 @@
       height: 100%;
       object-fit: cover;
     }
+
+    #controls {
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
   <div id="flipbook"></div>
 
+  <div id="controls">
+    <button id="prev">⬅ Previous</button>
+    <button id="next">Next ➡</button>
+  </div>
+
   <!-- ✅ jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <!-- ✅ Turn.js (local copy to avoid CDN/ORB errors) -->
+  <!-- ✅ Touch Punch (for swipe/touch support) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+  <!-- ✅ Turn.js (local copy) -->
   <script src="js/turn.min.js"></script>
 
   <script>
     $(document).ready(function () {
-      const totalPages = 98; // ✅ Total number of pages
+      const totalPages = 98; // Change to your actual page count
       const flipbook = $('#flipbook');
 
+      // Add all pages dynamically
       for (let i = 0; i < totalPages; i++) {
         const page = $('<div />', { class: 'page' });
         const img = $('<img />', {
           src: `images/My%20Book-images-${i}.jpg`,
           alt: `Page ${i + 1}`
         });
+
+        // Optional: Log if image fails to load
+        img.on('error', function () {
+          console.warn(`Image not found: ${this.src}`);
+        });
+
         page.append(img);
         flipbook.append(page);
       }
 
-      // ✅ Initialize Turn.js
+      // Initialize Turn.js
       flipbook.turn({
         width: 800,
         height: 600,
@@ -65,7 +98,21 @@
         autoCenter: true,
         elevation: 50,
         gradients: true,
-        acceleration: true
+        acceleration: true,
+        when: {
+          turning: function (event, page, view) {
+            console.log('Turning to page', page);
+          }
+        }
+      });
+
+      // Manual Navigation
+      $('#prev').click(function () {
+        flipbook.turn('previous');
+      });
+
+      $('#next').click(function () {
+        flipbook.turn('next');
       });
     });
   </script>
