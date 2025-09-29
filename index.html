@@ -12,19 +12,16 @@
       align-items: center;
       min-height: 100vh;
     }
-
     #flipbook {
       width: 800px;
       height: 600px;
     }
-
     .page {
       width: 400px;
       height: 600px;
       background: white;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
-
     .page img {
       width: 100%;
       height: 100%;
@@ -36,15 +33,14 @@
 
   <div id="flipbook"></div>
 
-  <!-- ✅ jQuery -->
+  <!-- Load jQuery first -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-  <!-- ✅ Turn.js via CDN (this fixes your issue) -->
+  <!-- Then load Turn.js via CDN -->
   <script src="https://cdn.jsdelivr.net/gh/blasten/turn.js@master/lib/turn.min.js"></script>
 
   <script>
-    $(document).ready(function () {
-      const totalPages = 10; // Change this to 100 if needed
+    jQuery(document).ready(function($) {
+      const totalPages = 10;  // test karo 10 pehle
       const flipbook = $('#flipbook');
 
       for (let i = 0; i < totalPages; i++) {
@@ -57,6 +53,7 @@
         flipbook.append(page);
       }
 
+      // Initialize Turn.js
       flipbook.turn({
         width: 800,
         height: 600,
