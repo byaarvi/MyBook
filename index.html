@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>My Flipbook</title>
   <style>
     body {
@@ -33,14 +33,14 @@
 
   <div id="flipbook"></div>
 
-  <!-- Load jQuery first -->
+  <!-- jQuery first -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- Then load Turn.js via CDN -->
-  <script src="https://cdn.jsdelivr.net/gh/blasten/turn.js@master/lib/turn.min.js"></script>
+  <!-- Correct Turn.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/turn.js@4/turn.min.js"></script>
 
   <script>
-    jQuery(document).ready(function($) {
-      const totalPages = 10;  // test karo 10 pehle
+    $(document).ready(function(){
+      const totalPages = 10;
       const flipbook = $('#flipbook');
 
       for (let i = 0; i < totalPages; i++) {
@@ -53,7 +53,6 @@
         flipbook.append(page);
       }
 
-      // Initialize Turn.js
       flipbook.turn({
         width: 800,
         height: 600,
