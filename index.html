@@ -1,67 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>My Flipbook</title>
-<style>
-  body {
-    margin: 0;
-    background: #ccc;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-  }
+  <meta charset="UTF-8">
+  <title>My Flipbook</title>
+  <style>
+    body {
+      margin: 0;
+      background: #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
 
-  #flipbook {
-    width: 800px;   /* total width of book */
-    height: 600px;  /* total height of book */
-  }
+    #flipbook {
+      width: 800px;
+      height: 600px;
+    }
 
-  #flipbook .page {
-    width: 400px;   /* half width */
-    height: 600px;
-    background: white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-  }
+    #flipbook .page {
+      width: 400px;
+      height: 600px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
 
-  #flipbook img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-</style>
+    #flipbook img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
 </head>
 <body>
+
 <div id="flipbook"></div>
 
-<!-- Libraries -->
+<!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Local Turn.js (upload karo js folder ke andar) -->
-<script src="js/turn.min.js"></script>
+
+<!-- ✅ Use CDN for Turn.js for now -->
+<script src="https://cdn.jsdelivr.net/gh/blasten/turn.js@master/lib/turn.min.js"></script>
 
 <script>
 $(document).ready(function(){
-  const totalPages = 100; // aapke pages 0 se 99 tak hain
-  const flipbook = document.getElementById('flipbook');
+  const totalPages = 100;
+  const flipbook = $('#flipbook');
 
   // Generate pages
   for (let i = 0; i < totalPages; i++) {
-    const pageDiv = document.createElement('div');
-    pageDiv.className = 'page';
-
-    const img = document.createElement('img');
-    img.src = `images/My%20Book-images-${i}.jpg`; // space ke liye %20
-
-    pageDiv.appendChild(img);
-    flipbook.appendChild(pageDiv);
+    const page = $('<div />', { 'class': 'page' });
+    const img = $('<img />', {
+      src: `images/My%20Book-images-${i}.jpg`,
+      alt: `Page ${i + 1}`
+    });
+    page.append(img);
+    flipbook.append(page);
   }
 
-  // Initialize Turn.js
-  $('#flipbook').turn({
+  // Initialize Turn.js after DOM is ready
+  flipbook.turn({
     width: 800,
     height: 600,
-    display: 'double',   // open book style
+    display: 'double',
     autoCenter: true,
     page: 1,
     acceleration: true,
